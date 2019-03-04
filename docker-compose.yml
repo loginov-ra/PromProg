@@ -1,0 +1,23 @@
+
+version: '3'
+services:
+  rabbitmq:
+    image: "rabbitmq"
+    restart: always
+  producer:
+    build:
+        context: .
+        dockerfile: producerDockerfile
+    environment:
+      - RabbitURL=amqp://guest:guest@rabbitmq:5672
+    links:
+      - rabbitmq
+  consumer:
+    build:
+        context: .
+        dockerfile: consumerDockerfile
+    environment:
+      - RabbitURL=amqp://guest:guest@rabbitmq:5672
+    links:
+      - rabbitmq
+
